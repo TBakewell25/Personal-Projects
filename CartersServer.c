@@ -17,6 +17,9 @@ int main(){
 	socklen_t acSpace = INET6_ADDRSTRLEN;
 	char ip[acSpace];
 
+	socklen_t ipSpace = INET6_ADDRSTRLEN;
+        char ipt[ipSpace];
+
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -28,7 +31,8 @@ int main(){
 		return 1;
 	
 	}	
-
+	printf("IP is: %s\n",inet_ntop(AF_INET, res->ai_addr->sa_data, ipt, ipSpace));
+	
 	if ((sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol)) == -1){
 		perror("Socket");
 		exit(1);
