@@ -11,7 +11,7 @@
 
 int main(){
 	struct addrinfo hints, *res;
-	int fd, sockfd, bfd, acpt;
+	int fd, sockfd, bfd, acpt, snd;
 	struct sockaddr newConnection;
 
 	socklen_t acSpace = INET6_ADDRSTRLEN;
@@ -19,12 +19,14 @@ int main(){
 
 	socklen_t ipSpace = INET6_ADDRSTRLEN;
         char ipt[ipSpace];
+	
+	char* mssg = "Hello world!";
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
-	
+
 	fd = getaddrinfo(NULL, "8080", &hints, &res);
 	if (fd == -1){
 		fprintf(stderr, "Error: %s", gai_strerror(fd));
@@ -56,6 +58,11 @@ int main(){
 	else{
 		printf("accept connection from %s\n", inet_ntop(AF_INET, &(newConnection.sa_data),ip, acSpace ));	
 	}
-		return 0;
+	
+	if ((snd = send(acpt, mssg, strlen(mssg), 0)) == -1){
+		perror("send");
+		exit(1);
+	}
+	return 0;
 }
 
