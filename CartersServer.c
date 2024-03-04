@@ -51,6 +51,8 @@ int main(){
 		perror("listen");
 		exit(1);
 	}
+
+	while (1){
 	if ((acpt = accept(sockfd, &newConnection, &acSpace)) == -1){
 	       perror("accept");
 		exit(1);
@@ -62,6 +64,7 @@ int main(){
 	if ((snd = send(acpt, mssg, strlen(mssg), 0)) == -1){
 		perror("send");
 		exit(1);
+	}
 	}
 	return 0;
 }
